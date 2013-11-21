@@ -1,0 +1,26 @@
+upstream app_server {
+  #server unix:/path/to/.unicorn.sock fail_timeout=0;
+  # for TCP setups, point these to your backend servers
+  server 0.0.0.0:8080 fail_timeout=0;
+}
+
+server {
+  client_max_body_size 4G;
+  server_name _;
+  keepalive_timeout 5;
+  root <%= @root %>;
+  try_files $uri/index.html $uri.html $uri @app;
+
+  location @app {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_pass http://app_server;
+  }
+
+  # Rails error pages
+  error_page 500 502 503 504 /500.html;
+  location = /500.html {
+    root <%= @root %>;
+  }
+}
