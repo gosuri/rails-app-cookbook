@@ -10,6 +10,7 @@ version          '0.1.0'
   apt
   nginx
   aws-rds
+  supervisor
 }.each do |str|
   depends str
 end

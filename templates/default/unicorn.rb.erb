@@ -1,0 +1,16 @@
+worker_processes  <%= @worker_processes %>
+working_directory "<%= @working_directory %>"
+listen  <%= @port %>, :tcp_nopush => true
+timeout <%= @timeout %>
+# pid "<%= @pid_path %>"
+preload_app true
+
+before_fork do |server, worker|
+  defined?(ActiveRecord::Base) and
+    ActiveRecord::Base.connection.disconnect!
+end
+
+after_fork do |server, worker|
+  defined?(ActiveRecord::Base) and
+    ActiveRecord::Base.establish_connection
+end
