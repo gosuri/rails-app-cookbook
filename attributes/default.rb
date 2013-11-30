@@ -1,5 +1,31 @@
+#
+# Cookbook Name:: rails-app
+# Attributes:: default
+#
+# Copyright (c) 2013 Greg Osuri <gosuri@gmail.com>
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# 'Software'), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+# CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+# TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+
 default[:app][:id]          = 'rails-app'
-default[:app][:env]         = "production"
+default[:app][:rails_env]   = "production"
 default[:app][:deploy_to]   = "/mnt/apps/#{node[:app][:id]}"
 default[:app][:packages]    = %w(git ruby1.9.3 libpq-dev)
 default[:app][:gems]        = %w(bundler)
@@ -7,7 +33,7 @@ default[:app][:gems]        = %w(bundler)
 default[:app][:repository]  = 'https://github.com/gosuri/rails-app.git'
 default[:app][:revision]    = 'master'
 
-default[:db][:id]       = "#{node[:app][:id]}"
+default[:db][:id]       = node[:app][:id]
 default[:db][:name]     = 'rails_app'
 default[:db][:username] = 'railsappuser'
 default[:db][:password] = 'insecure'

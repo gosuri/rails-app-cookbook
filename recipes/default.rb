@@ -2,9 +2,26 @@
 # Cookbook Name:: rails-app
 # Recipe:: default
 #
-# Copyright (C) 2013 Greg Osuri
-# 
-# All rights reserved - Do Not Redistribute
+# Copyright (c) 2013 Greg Osuri <gosuri@gmail.com>
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# 'Software'), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+# CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+# TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
 include_recipe "apt"
@@ -47,7 +64,7 @@ end
 template "#{shared_path}/database.yml" do
   variables lazy {
     {
-      env:      node[:app][:env],
+      env:      node[:app][:rails_env],
       host:     node[:aws_rds][node[:db][:id]][:endpoint_address],
       adapter:  'postgresql',
       encoding: 'unicode',
@@ -62,7 +79,7 @@ deploy_revision node[:app][:deploy_to] do
   repo node[:app][:repository]
   migrate false
   action :force_deploy
-  environment "RAILS_ENV" => node[:app][:env]
+  environment "RAILS_ENV" => node[:app][:rails_env]
   symlink_before_migrate "database.yml" => "config/database.yml"
 
   before_migrate do
