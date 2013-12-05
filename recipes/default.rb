@@ -29,7 +29,6 @@ include_recipe "nginx"
 include_recipe "aws-rds"
 include_recipe "supervisor"
 
-aws         = data_bag_item "keys", "aws"
 shared_path = "#{node[:app][:deploy_to]}/shared"
 
 node[:app][:packages].each do |pkg|
@@ -50,8 +49,8 @@ directory "#{shared_path}/log" do
 end
 
 aws_rds node[:db][:id] do
-  aws_access_key        aws['access_key']
-  aws_secret_access_key aws['secret_access_key']
+  aws_access_key        node[:aws_access_key_id]
+  aws_secret_access_key node[:aws_secret_access_key]
   engine                'postgres'
   db_instance_class     'db.t1.micro'
   allocated_storage     node[:db][:storage]

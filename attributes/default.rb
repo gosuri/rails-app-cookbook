@@ -27,7 +27,7 @@
 default[:app][:id]          = 'rails-app'
 default[:app][:rails_env]   = "production"
 default[:app][:deploy_to]   = "/mnt/apps/#{node[:app][:id]}"
-default[:app][:packages]    = %w(git ruby1.9.3 libpq-dev)
+default[:app][:packages]    = %w(git build-essential ruby1.9.3 libpq-dev)
 default[:app][:gems]        = %w(bundler)
 
 default[:app][:repository]  = 'https://github.com/gosuri/rails-app.git'

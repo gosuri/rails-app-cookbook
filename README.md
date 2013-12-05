@@ -4,26 +4,17 @@ This chef cookbook setups an example [rails app](https://github.com/gosuri/rails
 
 # Requirements
 
+* Git
 * Chef 11.4+
 * Ruby 1.9.3+
 * AWS Credentials
 
 ## Non-Gem Dependencies
 
-* Git
 * [Vagrant 1.3.5+](http://www.vagrantup.com)
 * [vagrant-berkshelf 1.3.4](https://github.com/berkshelf/vagrant-berkshelf): install using `vagrant plugin install vagrant-berkshelf`
-* [vagrant-omnibus 1.1.2](https://github.com/schisamo/vagrant-omnibus): install using `vagrant plugin install vagrant-omnibus`
 
-## Runtime Rubygem Dependencies
-
-First you'll need bundler which can be installed with a simple `gem install bundler`. Afterwords, do the following:
-
-```
-bundle install
-```
-
-# Usage
+## Usage
 
 1. Clone the repo
 
@@ -32,19 +23,22 @@ bundle install
    cd rails-app-cookbook
    ```
 
-2. Add your machine IP address to default RDS security group
+2. Create the ```web``` EC2 security groups
 
-   You will need to add your IP address to the default RDS security group in order for the RDS instance to be acccessable from your vagrant instance. It should be available at https://console.aws.amazon.com/rds/home?region=us-east-1#securitygroup:ids=default
+   Create a security group called `web` and open 22 (SSH) and  80 (HTTP) ports. It should be available at https://console.aws.amazon.com/ec2/home?region=us-east-1#s=SecurityGroups
 
-3. Place AWS credentials in the databag
+   It'll look something like in the image below
+   ![Web Security Group](master/docs/web-sec.png)
 
-   Place aws.json that contains your *AWS credentials* under ```data_bags/keys```. You can use the sample ```data_bags/keys/aws.json.sample``` to get started
+3. Place AWS credentials in ```.env``` file
+   
+   Place .env that contains your *AWS credentials* under ```.env```. You can use the sample ```.env.sample``` to get started
 
    ```
-   cp data_bags/keys/aws.json.sample data_bags/keys/aws.json 
+   cp .env.sample .env
    ```
 
-   Edit ```data_bags/keys/aws.json``` and place your keys there
+   Edit ```.env``` and place your keys there
 
 4. Install gem dependencies
 
@@ -54,13 +48,15 @@ bundle install
    bundle install
    ```
 
-5. Run Vagrant
+5. Provision an AWS instance
 
    ```
-   vagrant up
+   source .env && vagrant up --provider=aws
    ```
 
-6. Point your browser to http://33.33.33.10 and you should see 'It works!'
+   If the provisioning fails you can restart it using ```vagrant provision```
+
+6. Point your browser to the newly created ec2 instanstance and you should see 'It works!'
 
 # Recipes
 
