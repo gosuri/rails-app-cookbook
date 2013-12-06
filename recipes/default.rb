@@ -24,7 +24,6 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-include_recipe "apt"
 include_recipe "nginx"
 include_recipe "aws-rds"
 include_recipe "supervisor"

@@ -6,7 +6,6 @@ description      'This chef cookbook setups an example rails app using the aws-r
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.0.0'
 %w{
-  apt
   nginx
   aws-rds
   supervisor
