@@ -14,6 +14,7 @@ SHELL
 
 Vagrant.configure("2") do |config|
   config.vm.box     = BOX_NAME
+  config.vm.box_url = BOX_URL
   config.vm.provision "shell", inline: $chef
 
   config.vm.provision :chef_solo do |chef|

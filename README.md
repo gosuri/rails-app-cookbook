@@ -12,7 +12,14 @@ This chef cookbook setups an example [rails app](https://github.com/gosuri/rails
 ## Non-Gem Dependencies
 
 * [Vagrant 1.3.5+](http://www.vagrantup.com)
-* [vagrant-berkshelf 1.3.4](https://github.com/berkshelf/vagrant-berkshelf): install using `vagrant plugin install vagrant-berkshelf`
+* [vagrant-aws 1.3.4](https://github.com/): Install using: 
+  ```
+  vagrant plugin install vagrant-aws
+  ```
+* [vagrant-berkshelf 1.3.4](https://github.com/berkshelf/vagrant-berkshelf): Install using 
+  ```
+  vagrant plugin install vagrant-berkshelf
+  ```
 
 ## Usage
 
@@ -25,12 +32,19 @@ This chef cookbook setups an example [rails app](https://github.com/gosuri/rails
 
 2. Create the ```web``` EC2 security groups
 
-   Create a security group called `web` and open 22 (SSH) and  80 (HTTP) ports. It should be available at https://console.aws.amazon.com/ec2/home?region=us-east-1#s=SecurityGroups
+   Create a security group called `web` and open 22 (SSH) and  80 (HTTP) ports.  It should be available at https://console.aws.amazon.com/ec2/home?region=us-east-1#s=SecurityGroups
 
    It'll look something like in the image below
-   ![Web Security Group](master/docs/web-sec.png)
+   ![Web Security Group](docs/web-sec.png)
 
-3. Place AWS credentials in ```.env``` file
+3. Add ```web``` EC2 security to ```default``` RDS security group
+   
+   In order to make the rds instance available to the ec2 instance, you will need to add the ```web``` ec2 security group to ```default``` rds security group.  It should be available at https://console.aws.amazon.com/rds/home?region=us-east-1#securitygroup:ids=default
+
+   It'll look something like this:
+   ![Web Security Group](docs/rds-sec.png)
+
+4. Place AWS credentials in ```.env``` file
    
    Place .env that contains your *AWS credentials* under ```.env```. You can use the sample ```.env.sample``` to get started
 
@@ -40,7 +54,7 @@ This chef cookbook setups an example [rails app](https://github.com/gosuri/rails
 
    Edit ```.env``` and place your keys there
 
-4. Install gem dependencies
+5. Install gem dependencies
 
    First you'll need bundler which can be installed with a simple `gem install bundler`. Afterwords, do the following:
 
@@ -48,7 +62,7 @@ This chef cookbook setups an example [rails app](https://github.com/gosuri/rails
    bundle install
    ```
 
-5. Provision an AWS instance
+6. Provision an AWS instance
 
    ```
    source .env && vagrant up --provider=aws
@@ -56,7 +70,7 @@ This chef cookbook setups an example [rails app](https://github.com/gosuri/rails
 
    If the provisioning fails you can restart it using ```vagrant provision```
 
-6. Point your browser to the newly created ec2 instanstance and you should see 'It works!'
+7. Point your browser to the newly created ec2 instanstance and you should see 'It works!'
 
 # Recipes
 
