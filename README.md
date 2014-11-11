@@ -12,14 +12,9 @@ This chef cookbook setups an example [rails app](https://github.com/gosuri/rails
 ## Non-Gem Dependencies
 
 * [Vagrant 1.3.5+](http://www.vagrantup.com)
-* [vagrant-aws 1.3.4](https://github.com/): Install using: 
-  ```
-  vagrant plugin install vagrant-aws
-  ```
-* [vagrant-berkshelf 1.3.4](https://github.com/berkshelf/vagrant-berkshelf): Install using 
-  ```
-  vagrant plugin install vagrant-berkshelf
-  ```
+* [vagrant-aws 1.3.4](https://github.com/): Install using: `vagrant plugin install vagrant-aws`
+* [vagrant-env 0.0.2](https://github.com/gosuri/vagrant-env): Install using `vagrant plugin install vagrant-env`
+* [vagrant-berkshelf 1.3.4](https://github.com/berkshelf/vagrant-berkshelf): Install using `vagrant plugin install vagrant-berkshelf`
 
 ## Usage
 
@@ -49,10 +44,12 @@ This chef cookbook setups an example [rails app](https://github.com/gosuri/rails
    Place .env that contains your *AWS credentials* under ```.env```. You can use the sample ```.env.sample``` to get started
 
    ```
-   cp .env.sample .env
+   cat > .env <<ENV
+   export AWS_ACCESS_KEY_ID=XXX
+   export AWS_SECRET_ACCESS_KEY=XXX
+   export AWS_KEYPAIR_NAME=xxx
+   ENV
    ```
-
-   Edit ```.env``` and place your keys there
 
 5. Install gem dependencies
 
@@ -86,7 +83,7 @@ This chef cookbook setups an example [rails app](https://github.com/gosuri/rails
 
 Author:: Greg Osuri (<gosuri@gmail.com>)
 
-Copyright (c) 2013 Greg Osuri 
+Copyright (c) 2014 Greg Osuri 
 
 Licensed under the MIT License
 

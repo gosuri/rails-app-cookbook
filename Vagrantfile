@@ -1,5 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+
+current_dir = File.expand_path File.dirname(__FILE__)
+
 BOX_NAME        = ENV['BOX_NAME']         || "dummy"
 BOX_URL         = ENV['BOX_URL']          || "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
 SECURITY_GROUPS = ENV['SECURITY_GROUPS']  || "web" # space separated
@@ -13,6 +16,21 @@ sudo gem install chef --no-ri --no-rdoc
 SHELL
 
 Vagrant.configure("2") do |config|
+  if Vagrant.has_plugin?('vagrant-env')
+    config.env.enable
+    if File.exists?("#{current_dir}/.env")
+      print "loading vars from from .env\n"
+    else
+      print "unable to set local environment vars as .env file doesn't exits. \n see https://github.com/gosuri/vagrant-env/blob/master/README.md \n"
+    end
+  else
+    $stderr.puts <<ERR 
+      FATAL: vagrant-env plugin not detected. Please install the plugin with
+             'vagrant plugin install vagrant-env' from any other directory
+              before continuing
+ERR
+    exit
+  end
   config.vm.box     = BOX_NAME
   config.vm.box_url = BOX_URL
   config.vm.provision "shell", inline: $chef
